@@ -1,10 +1,10 @@
 /* Global Variables */
-const baseURL = 'http://api.openweathermap.org/data/2.5/weather?zip=';
-const apiKey = '&appid=a862a266d3086cc10b0d71711c0f52ae'; // generated from openweathermap.com
+const baseURL = "http://api.openweathermap.org/data/2.5/weather?zip=";
+const apiKey = "&appid=a862a266d3086cc10b0d71711c0f52ae"; // generated from openweathermap.com
 
 // Create a new date instance dynamically with JS
 let d = new Date();
-let newDate = d.getMonth() + "." + d.getDate() + "." + d.getFullYear();
+let newDate = (d.getMonth()+1) + "." + d.getDate() + "." + d.getFullYear();
 
 // Event listener to add function to existing HTML DOM element
 document.getElementById("generate").addEventListener("click", performAction);
@@ -19,6 +19,7 @@ function performAction(e) {
 
   getWeatherData(baseURL, zipCode, apiKey)
     .then(function (data) {
+      console.log(data);
       // add data to POST request
       postData("/add", {
         temp: data.main.temp,
@@ -35,7 +36,7 @@ function performAction(e) {
 /* Function to GET Web API Data*/
 const getWeatherData = async (baseURL, zipCode, apiKey) => {
   // res equals to the result of fetch function
-  const res = await fetch(baseURL + zipCode + apiKey);
+  const res = await fetch(baseURL + zipCode + apiKey + '&units=metric');
   try {
     // data equals to the result of fetch function
     const data = await res.json();
@@ -79,22 +80,5 @@ const updateUI = async () => {
     document.getElementById("content").innerHTML = allData.content;
   } catch (error) {
     console.log("error", error);
-  }
-};
-// function to GET project data
-const retrieveData = async () => {
-  const request = await fetch("/all");
-  try {
-    // Transform into JSON
-    const allData = await request.json();
-    console.log(allData);
-    // Write updated data to DOM elements
-    document.getElementById("temp").innerHTML =
-      Math.round(allData.temp) + "degrees";
-    document.getElementById("content").innerHTML = allData.feel;
-    document.getElementById("date").innerHTML = allData.date;
-  } catch (error) {
-    console.log("error", error);
-    // appropriately handle the error
   }
 };
