@@ -28,7 +28,7 @@ app.post('/add', newData);
 function newData(req, res) {
     projectData['temp'] = req.body.temp;
     projectData['date'] = req.body.date;
-    projectData['user response'] = req.body.content;
+    projectData['content'] = req.body.content;
     res.send(projectData);
 };
 
